@@ -10,7 +10,7 @@ export default function AuthUser() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
-    const emailOrPhone = useRef(null);
+    const email = useRef(null);
     const password = useRef(null);
     const name = useRef(null);
 
@@ -26,7 +26,7 @@ export default function AuthUser() {
         
         if (!newUser) {
 
-            const error = validateSignInForm(emailOrPhone.current.value, password.current.value);
+            const error = validateSignInForm(email.current.value, password.current.value);
             if (error !== null) {
                 setError(error);
                 console.log(error);
@@ -34,7 +34,7 @@ export default function AuthUser() {
             }
 
             //checking user and signing it in
-            signInWithEmailAndPassword(auth, emailOrPhone.current.value, password.current.value)
+            signInWithEmailAndPassword(auth, email.current.value, password.current.value)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
@@ -48,7 +48,7 @@ export default function AuthUser() {
 
         } else {
 
-            const error = validateSignUpForm(emailOrPhone.current.value, password.current.value, name.current.value);
+            const error = validateSignUpForm(email.current.value, password.current.value, name.current.value);
             if (error !== null) {
                 setError(error);
                 console.log(error);
@@ -56,7 +56,7 @@ export default function AuthUser() {
             }
 
             //creating a user in firebase
-            createUserWithEmailAndPassword(auth, emailOrPhone.current.value, password.current.value)
+            createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
@@ -76,7 +76,7 @@ export default function AuthUser() {
     };
 
     return (
-        <div className="h-screen w-full px-6 md:px-42 py-6 flex flex-col gap-8 bg-[url('https://occ.a.nflxso.net/dnm/api/v6/iMyKkw5SVrkCXbCfSBEb_Pjar5Y/AAAAQBTxE26zgLJoqZnmxUCfZtVJ2HbJUsVonZ_9Uo-pn68zarPK.png')] font-sans">
+        <div className="bg-cover bg-no-repeat bg-center min-h-screen w-full px-6 md:px-42 py-6 flex flex-col gap-8 bg-[url('https://occ.a.nflxso.net/dnm/api/v6/iMyKkw5SVrkCXbCfSBEb_Pjar5Y/AAAAQBTxE26zgLJoqZnmxUCfZtVJ2HbJUsVonZ_9Uo-pn68zarPK.png')] font-sans">
             <div className='flex items-center justify-between'>
                 <img className="w-22 md:w-36" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="logo" />
                 <div className='absolute left-0 top-20 md:top-23 bg-gray-100 opacity-25 w-full h-[0.1px]'></div>
@@ -93,18 +93,18 @@ export default function AuthUser() {
                     placeholder='Name' />}
                     
                     <input 
-                    ref={emailOrPhone} 
+                    ref={email} 
                     className='p-4 bg-black border border-gray-600 rounded-md' 
                     type="text" 
-                    placeholder='Email or phone number' 
+                    placeholder='Email' 
                     />
 
-                    {/* <div className="relative w-full max-w-100">
+                    <div className="relative w-full min-w-100">
                         <img 
                             src="/icons/icon-closed-eye.png" 
                             alt="pswd closed eye icon" 
                             className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 object-contain opacity-70"
-                        /> */}
+                        />
 
                         <input 
                             ref={password}
@@ -112,7 +112,7 @@ export default function AuthUser() {
                             type="password" 
                             placeholder='Password' 
                         />
-                    {/* </div> */}
+                    </div>
 
                     {error && <p className='text-red-600'>{error}</p>}  
                     {success && <p className='text-green-600'>{success}</p>}  
