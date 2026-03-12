@@ -78,7 +78,7 @@ export default function AuthUser() {
 
 
     return (
-        <div className="bg-cover bg-no-repeat bg-center min-h-screen w-full px-6 md:px-42 py-6 flex flex-col gap-8 bg-[url('https://occ.a.nflxso.net/dnm/api/v6/iMyKkw5SVrkCXbCfSBEb_Pjar5Y/AAAAQBTxE26zgLJoqZnmxUCfZtVJ2HbJUsVonZ_9Uo-pn68zarPK.png')] font-sans">
+        <div className="bg-cover bg-no-repeat text-white bg-center min-h-screen w-full px-6 md:px-42 py-6 flex flex-col gap-8 bg-[url('https://occ.a.nflxso.net/dnm/api/v6/iMyKkw5SVrkCXbCfSBEb_Pjar5Y/AAAAQBTxE26zgLJoqZnmxUCfZtVJ2HbJUsVonZ_9Uo-pn68zarPK.png')] font-sans">
             <div className='flex items-center justify-between'>
                 <img className="w-22 md:w-36" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="logo" />
                 <div className='absolute left-0 top-20 md:top-23 bg-gray-100 opacity-25 w-full h-[0.1px]'></div>
