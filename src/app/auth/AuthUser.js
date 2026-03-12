@@ -9,6 +9,7 @@ export default function AuthUser() {
     const [newUser, setNewUser] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
     const email = useRef(null);
     const password = useRef(null);
@@ -75,6 +76,7 @@ export default function AuthUser() {
         }
     };
 
+
     return (
         <div className="bg-cover bg-no-repeat bg-center min-h-screen w-full px-6 md:px-42 py-6 flex flex-col gap-8 bg-[url('https://occ.a.nflxso.net/dnm/api/v6/iMyKkw5SVrkCXbCfSBEb_Pjar5Y/AAAAQBTxE26zgLJoqZnmxUCfZtVJ2HbJUsVonZ_9Uo-pn68zarPK.png')] font-sans">
             <div className='flex items-center justify-between'>
@@ -95,23 +97,28 @@ export default function AuthUser() {
                     <input 
                     ref={email} 
                     className='p-4 bg-black border border-gray-600 rounded-md' 
-                    type="text" 
+                    type="text"
                     placeholder='Email' 
                     />
 
-                    <div className="relative w-full min-w-100">
-                        <img 
-                            src="/icons/icon-closed-eye.png" 
-                            alt="pswd closed eye icon" 
-                            className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 object-contain opacity-70"
-                        />
-
+                    <div className="relative w-full max-w-md">
                         <input 
+                            type={showPassword ? "text" : "password"}
                             ref={password}
-                            className='p-4 bg-black border border-gray-600 rounded-md' 
-                            type="password" 
-                            placeholder='Password' 
+                            placeholder="Password" 
+                            className="w-full pr-12 p-4 bg-black border border-gray-600 rounded-md"
                         />
+                        <button 
+                            type="button" 
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white focus:outline-none"
+                        >
+                            {!showPassword ? (
+                                <img src="/icons/icon-closed-eye.png" alt="pswd closed eye icon" className="h-5 w-5 "/>
+                            ) : (
+                                <img src="/icons/icon-open-eye.png" alt="pswd open eye icon" className="h-5 w-5 "/>
+                            )}
+                        </button>
                     </div>
 
                     {error && <p className='text-red-600'>{error}</p>}  
@@ -122,9 +129,7 @@ export default function AuthUser() {
                     type='submit'
                     >
                         {newUser ? 'Sign Up' : 'Sign In'}
-                    </button>
-
-                      
+                    </button>     
 
                 </form>
 
