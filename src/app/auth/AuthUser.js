@@ -114,9 +114,9 @@ export default function AuthUser() {
                             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white focus:outline-none"
                         >
                             {!showPassword ? (
-                                <img src="/icons/icon-closed-eye.png" alt="pswd closed eye icon" className="h-5 w-5 "/>
+                                <img src="./icons/icon-closed-eye.png" alt="pswd closed eye icon" className="h-5 w-5 "/>
                             ) : (
-                                <img src="/icons/icon-open-eye.png" alt="pswd open eye icon" className="h-5 w-5 "/>
+                                <img src="./icons/icon-open-eye.png" alt="pswd open eye icon" className="h-5 w-5 "/>
                             )}
                         </button>
                     </div>
