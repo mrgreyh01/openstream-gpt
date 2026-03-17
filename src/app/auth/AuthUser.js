@@ -3,13 +3,10 @@ import { auth } from '@/utils/firebase';
 import React, { useEffect, useRef, useState } from 'react'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux';
-import { setUser, removeUser } from '@/utils/redux/slices/userslice';
-import { useRouter } from 'next/navigation';
 
 
 export default function AuthUser() {
-    const router = useRouter();
-    const dispatch = useDispatch();
+
     const [newUser, setNewUser] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -44,7 +41,6 @@ export default function AuthUser() {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                router.push("/browse");
                 setSuccess("User signed in successfully");
             })
             .catch((error) => {
@@ -71,8 +67,6 @@ export default function AuthUser() {
                 updateProfile(user, {
                     displayName: name.current.value,
                     photoURL: "" 
-                }).then(() => {
-                    router.push("/browse");  
                 })
                 setSuccess("User created successfully");
             })

@@ -7,6 +7,9 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/utils/firebase';
 import { signOut } from "firebase/auth";
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { setUser } from '@/utils/redux/slices/userslice';
 
 export default function Header() {
 
@@ -14,12 +17,27 @@ export default function Header() {
   const user = useSelector((store) => store.users.user);
   console.log(user);
 
+  useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const {uid, email, displayName} = user.auth.currentUser;
+                console.log("User is signed in:", user);
+                dispatch(setUser({uid, email, displayName}));
+                router.push("/browse");
+            } else {
+                // User is signed out
+                dispatch(removeUser());
+                router.push("/");
+            }
+        });
+    }, []);
+
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
     dispatch(removeUser());
-    router.push("/");
   }).catch((error) => {
     console.error("Sign out error", error);
   });
