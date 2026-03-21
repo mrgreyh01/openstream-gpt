@@ -1,7 +1,7 @@
 "use client"
 import { Provider } from "react-redux";
-import appStore from "@/utils/redux/appstore";
-import Body from "./components/Body";
+import appStore from "@/store/appstore";
+import Body from "../components/Body";
 
 export default function Home() {
 

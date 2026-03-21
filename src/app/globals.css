@@ -1,4 +1,20 @@
 @import "tailwindcss";
 
 
+@theme {
+  /* This creates classes like 'bg-brand', 'text-brand' */
+  --color-orange-400: #f25f3aff;
+  --color-blue-950: #242d52ff;
+  --color-gray-950: #1d1e25ff;
+  --color-gray-50: #fafafaff;
+  --color-orange-50: #ffefebff;
   
+  /* This overrides the default sans font so 'font-sans' uses Rubik */
+  --font-be-vietnam-pro: "Be Vietnam Pro", sans-serif;
+  --font-be-vietnam-pro-light: 400;
+  --font-be-vietnam-pro-medium: 500;
+  --font-be-vietnam-pro-bold: 700;
+
+
+  --background-image-bg-openstream: url('https://occ.a.nflxso.net/dnm/api/v6/iMyKkw5SVrkCXbCfSBEb_Pjar5Y/AAAAQBTxE26zgLJoqZnmxUCfZtVJ2HbJUsVonZ_9Uo-pn68zarPK.png')
+}

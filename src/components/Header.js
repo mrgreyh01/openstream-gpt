@@ -1,15 +1,16 @@
 "use client"
 
-import { removeUser } from '@/utils/redux/slices/userslice';
+import { removeUser } from '@/store/slices/userslice';
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/utils/firebase';
+import { auth } from '@/lib/firebase';
 import { signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { setUser } from '@/utils/redux/slices/userslice';
+import { setUser } from '@/store/slices/userslice';
+import { LOGO, USER_AVATAR } from '@/utils/contants';
 
 export default function Header() {
 
@@ -18,7 +19,7 @@ export default function Header() {
   console.log(user);
 
   useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        const unsubcribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in
                 const {uid, email, displayName} = user.auth.currentUser;
@@ -31,6 +32,7 @@ export default function Header() {
                 router.push("/");
             }
         });
+        return () => unsubcribe();
     }, []);
 
   const dispatch = useDispatch();
@@ -50,7 +52,7 @@ export default function Header() {
   return (
     <div className='flex justify-between p-6 bg-gradient-to-b from-black to-transparent'>
         <div className='flex items-center justify-between'>
-            <img className="w-22 md:w-36" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="logo" />
+            <img className="w-22 md:w-36" src= {LOGO} alt="logo" />
             {/* <div className='absolute left-0 top-20 md:top-23 bg-gray-100 opacity-25 w-full h-[0.1px]'></div> */}
         </div>
         {user && (
@@ -58,7 +60,7 @@ export default function Header() {
               <p className='font-bold text-orange-400 text-xl'>{user.displayName}</p>  
               <img 
                   className='w-12 rounded-lg'
-                  src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" 
+                  src={USER_AVATAR}
                   alt="User Avatar" 
               />
               <button onClick={() => handleSignOut()} className='cursor-pointer bg-red-700 border border-gray-500 font-bold text-white px-4 py-2 rounded-lg'>Sign Out</button>
