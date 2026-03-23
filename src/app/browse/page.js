@@ -1,29 +1,33 @@
 "use client"
 import React from 'react'
 import Header from '../../components/Header'
-import { Provider } from 'react-redux'
-import appStore from '@/store/appstore'
 import { useState, useEffect } from 'react'
 import nowPlayingService from '@/services/nowPlaying.service'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux'
+import { setNowPlaying } from '@/store/slices/movieslice'
+
 
 export default function Browse() {
 
-  const [nowplaying, setNowPlaying] = useState([]);
+  // const [nowplaying, setNowPlaying] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchData() {
         const data = await nowPlayingService();
         console.log("This is inside the UseEffect:",data);
-        setNowPlaying(data);
+        
+        if(data !== null || data.length > 0){
+          dispatch(setNowPlaying(data));
+        }
     }
     fetchData();
   }, []);
 
   return (
     <>
-      <Provider store={appStore}>
-        <Header />
-      </Provider>
+      <Header />
       <div>You are inside Browse Page</div>
     </>
   )

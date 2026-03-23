@@ -3,51 +3,33 @@
 import { removeUser } from '@/store/slices/userslice';
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
+import { useDispatch } from 'react-redux';
 import { signOut } from "firebase/auth";
-import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { setUser } from '@/store/slices/userslice';
+import useUserAuthChanged from '@/hooks/useUserAuthChanged';
 import { LOGO, USER_AVATAR } from '@/utils/contants';
 
 export default function Header() {
 
-  const router = useRouter();
   const user = useSelector((store) => store.users.user);
+  const dispatch = useDispatch();
   console.log(user);
 
-  useEffect(() => {
-        const unsubcribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                const {uid, email, displayName} = user.auth.currentUser;
-                console.log("User is signed in:", user);
-                dispatch(setUser({uid, email, displayName}));
-                router.push("/browse");
-            } else {
-                // User is signed out
-                dispatch(removeUser());
-                router.push("/");
-            }
-        });
-        return () => unsubcribe();
-    }, []);
-
-  const dispatch = useDispatch();
+  //UseEffect called from this function
+  useUserAuthChanged();
 
   const handleSignOut = () => {
+
     signOut(auth).then(() => {
     dispatch(removeUser());
+    dispatch(removeNowPlaying()); 
+
   }).catch((error) => {
+
     console.error("Sign out error", error);
+
   });
 };
-
-  const handleClick = () => {
-    
-  }
 
   return (
     <div className='flex justify-between p-6 bg-gradient-to-b from-black to-transparent'>
