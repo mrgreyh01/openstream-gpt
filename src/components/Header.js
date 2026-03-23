@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { signOut } from "firebase/auth";
 import useUserAuthChanged from '@/hooks/useUserAuthChanged';
 import { LOGO, USER_AVATAR } from '@/utils/contants';
+import { removeNowPlaying } from '@/store/slices/movieslice';
 
 export default function Header() {
 

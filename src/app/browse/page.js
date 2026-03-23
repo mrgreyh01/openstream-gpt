@@ -12,13 +12,14 @@ export default function Browse() {
 
   // const [nowplaying, setNowPlaying] = useState([]);
   const dispatch = useDispatch();
+  const user = useSelector((store) => store.users.user);
 
   useEffect(() => {
     async function fetchData() {
-        const data = await nowPlayingService();
+        const data = await nowPlayingService(user);
         console.log("This is inside the UseEffect:",data);
         
-        if(data !== null || data.length > 0){
+        if(data !== null){
           dispatch(setNowPlaying(data));
         }
     }

@@ -1,11 +1,7 @@
 import nowPlayingModel from '../models/nowPlaying.model.js';
-import { API_URL } from '@/utils/contants';
-// import { useSelector } from 'react-redux';  
+import { API_URL } from '@/utils/contants'; 
 
-async function nowPlayingService() {
-
-    // const user = useSelector((store) => store.users.user);
-    
+async function nowPlayingService(user) {
 
     const url = API_URL + 'now_playing';
     const options = {
@@ -17,14 +13,17 @@ async function nowPlayingService() {
     };
 
     try {
+            if (user) {
+                const res = await fetch(url, options);
+                let json = await res.json();
 
-            const res = await fetch(url, options);
-            let json = await res.json();
-
-            json = JSON.parse(JSON.stringify(json.results));
-            
-            const nowPlaying = json.map((movieData) => new nowPlayingModel(movieData));
-            return nowPlaying;
+                json = JSON.parse(JSON.stringify(json.results));
+                
+                const nowPlaying = json.map((movieData) => new nowPlayingModel(movieData));
+                return nowPlaying;
+            } else {
+                return null;
+            }
 
         } catch (err) {
             console.error(err);
