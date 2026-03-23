@@ -6,7 +6,13 @@ const appStore = configureStore({
     reducer: {
       users: userReducer,
       movies: movieReducer
-    }
+    },
+
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    })
+
 })
 
 export default appStore
