@@ -22,7 +22,7 @@ export default function AuthUser() {
         setError(null);
         setSuccess(null);
     }, [newUser]);
-    
+
     function handleForm () {
 
         setError(null);
@@ -33,7 +33,6 @@ export default function AuthUser() {
             const error = validateSignInForm(email.current.value, password.current.value);
             if (error !== null) {
                 setError(error);
-                console.log(error);
                 return;
             }
 
@@ -55,7 +54,6 @@ export default function AuthUser() {
             const error = validateSignUpForm(email.current.value, password.current.value, name.current.value);
             if (error !== null) {
                 setError(error);
-                console.log(error);
                 return;
             }
 

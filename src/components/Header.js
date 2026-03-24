@@ -14,7 +14,6 @@ export default function Header() {
 
   const user = useSelector((store) => store.users.user);
   const dispatch = useDispatch();
-  console.log(user);
 
   //UseEffect called from this function
   useUserAuthChanged();
