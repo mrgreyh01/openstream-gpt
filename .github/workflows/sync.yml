@@ -1,0 +1,39 @@
+name: Daily Trailer Sync
+
+on:
+  schedule:
+    # This runs the script automatically every day at midnight UTC
+    - cron: '0 0 * * *' 
+  workflow_dispatch: 
+    # This allows you to click a button on GitHub to run it manually whenever you want
+
+jobs:
+  sync-trailer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: 🍪 Create cookies.txt file dynamically
+        run: |
+          # This takes your hidden secret and creates the physical file for yt-dlp to read
+          echo "${{ secrets.YOUTUBE_COOKIES }}" > cookies.txt
+
+      - name: 🚀 Run Trailer Sync Script
+        env:
+          # This injects your other secrets into process.env so your script can find them
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: node scripts/syncTrailers.js

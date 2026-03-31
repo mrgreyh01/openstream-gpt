@@ -3,7 +3,7 @@ import { auth } from '@/lib/firebase';
 import React, { useEffect, useRef, useState } from 'react'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux';
-import { LOGO, BG_IMG } from '@/utils/contants';
+import { LOGO, BG_IMG } from '@/utils/constants';
 
 
 export default function AuthUser() {
@@ -13,7 +13,6 @@ export default function AuthUser() {
     const [success, setSuccess] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     
-
     const email = useRef(null);
     const password = useRef(null);
     const name = useRef(null);

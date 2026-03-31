@@ -1,25 +1,21 @@
 import nowPlayingModel from '../models/nowPlaying.model.js';
-import { API_URL } from '@/utils/contants'; 
 
 async function nowPlayingService(user) {
 
-    const url = API_URL + 'now_playing';
-    const options = {
-        method: 'GET', 
-        headers: {
-            accept: 'application/json',
-            Authorization: "Bearer " + process.env.NEXT_PUBLIC_TMDB_ACCESS_TOKEN
-        }
-    };
+    
 
     try {
             if (user) {
-                const res = await fetch(url, options);
+                const res = await fetch('/api/movies/nowplaying');
+                if (!res.ok) return null;
+                
                 let json = await res.json();
 
                 json = JSON.parse(JSON.stringify(json.results));
                 
                 const nowPlaying = json.map((movieData) => new nowPlayingModel(movieData));
+                console.log("This is from the service of nowPlaying: ", nowPlaying);
+                
                 return nowPlaying;
             } else {
                 return null;
@@ -27,7 +23,7 @@ async function nowPlayingService(user) {
 
         } catch (err) {
             console.error(err);
-            return [];
+            return null;
         }
 }
 

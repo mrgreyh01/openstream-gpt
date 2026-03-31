@@ -7,7 +7,7 @@ import { auth } from '@/lib/firebase';
 import { useDispatch } from 'react-redux';
 import { signOut } from "firebase/auth";
 import useUserAuthChanged from '@/hooks/useUserAuthChanged';
-import { LOGO, USER_AVATAR } from '@/utils/contants';
+import { LOGO, USER_AVATAR } from '@/utils/constants';
 import { removeNowPlaying } from '@/store/slices/movieslice';
 
 export default function Header() {
@@ -32,7 +32,7 @@ export default function Header() {
 };
 
   return (
-    <div className='flex justify-between p-6 bg-gradient-to-b from-black to-transparent'>
+    <div className='flex justify-between p-6 absolute z-50 w-full'>
         <div className='flex items-center justify-between'>
             <img className="w-22 md:w-36" src= {LOGO} alt="logo" />
             {/* <div className='absolute left-0 top-20 md:top-23 bg-gray-100 opacity-25 w-full h-[0.1px]'></div> */}

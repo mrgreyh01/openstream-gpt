@@ -7,7 +7,15 @@ export const USER_AVATAR = "https://upload.wikimedia.org/wikipedia/commons/0/0b/
 
 export const API_URL = "https://api.themoviedb.org/3/movie/"
 
-export const API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY
+export const API_KEY = process.env.TMDB_ACCESS_TOKEN
+
+export const API_OPTIONS = {
+        method: 'GET', 
+        headers: {
+            accept: 'application/json',
+            Authorization: "Bearer " + process.env.TMDB_ACCESS_TOKEN
+        }
+    };
 
 
 
