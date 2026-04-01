@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { signOut } from "firebase/auth";
 import useUserAuthChanged from '@/hooks/useUserAuthChanged';
 import { LOGO, USER_AVATAR } from '@/utils/constants';
-import { removeNowPlaying } from '@/store/slices/movieslice';
+import { removeNowPlaying, removeTrailer } from '@/store/slices/movieslice';
 
 export default function Header() {
 
@@ -23,6 +23,7 @@ export default function Header() {
     signOut(auth).then(() => {
     dispatch(removeUser());
     dispatch(removeNowPlaying()); 
+    dispatch(removeTrailer());
 
   }).catch((error) => {
 

@@ -1,23 +1,18 @@
 import movieTrailerModel from '../models/movieTrailer.model.js';
 
-async function movieTrailerService(movieId) {
+async function movieTrailerService() {
 
     try {
         
-        const res = await fetch('/api/movies/trailer/key?movieId=' + movieId);
+        const res = await fetch('/api/movies/trailer/');
 
         if(!res.ok) return null;
 
-        let json = await res.json();
+        const json = await res.json();
 
-        json = JSON.parse(JSON.stringify(json.results));
-
-        json = json.filter((trailerData) => trailerData.type === 'Trailer');
+        console.log("This is from the service of movieTrailer: ", json);
         
-        const movieTrailer = json.map((trailerData) => new movieTrailerModel(trailerData));
-        console.log("This is from the service of movieTrailer: ", movieTrailer);
-        
-        return movieTrailer;
+        return json;
 
     } catch (err) {
         console.error(err);

@@ -1,6 +1,6 @@
 
-const VideoBackground = ({ videoUrl }) => {
-  if (!videoUrl) return <div className="w-screen h-screen bg-black"></div>;
+const VideoBackground = ({ trailerUrl }) => {
+  if (!trailerUrl) return <div className="w-screen h-screen bg-black"></div>;
 
   return (
     <div className="w-screen h-screen absolute top-0 left-0 -z-10 overflow-hidden bg-black pointer-events-none">
@@ -11,9 +11,9 @@ const VideoBackground = ({ videoUrl }) => {
         loop
         muted
         playsInline // Crucial for autoplaying on iOS/Mobile
-        className="w-full h-full object-cover" // object-cover acts exactly like background-size: cover
+        className="w-full h-full scale-135" // object-cover acts exactly like background-size: cover
       >
-        <source src={videoUrl} type="video/mp4" />
+        <source src={trailerUrl} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 

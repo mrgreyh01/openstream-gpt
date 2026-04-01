@@ -30,9 +30,10 @@ cloudinary.config({
 // Mongoose Schema & Model
 const trailerSchema = new mongoose.Schema({
   title: String,
-  key: String,       // We will store the TMDB Movie ID here
+  overview: String,
+  key: String,      
   trailerUrl: String,
-  cloudinaryPublicId: String, // CRITICAL: Needed to delete old videos
+  cloudinaryPublicId: String, 
 }, { strict: false });
 
 const TrailerModel = mongoose.models.trailer || mongoose.model('trailer', trailerSchema);
@@ -66,7 +67,7 @@ async function downloadWithYtDlp(youtubeUrl) {
     await ytdlp.downloadAsync(youtubeUrl, {
       format: { 
         filter: 'mergevideo', 
-        quality: '720p'       
+        quality: '1080p'       
       },
       output: outputPathTemplate, 
       cookies: cookiesPath, 
@@ -126,6 +127,7 @@ async function updateLatestTrailer() {
     // Variables to hold our final winner once we find it
     let topMovieId = null;
     let topMovieTitle = null;
+    let topMovieOverview = null;
     let youtubeUrl = null;
 
     // Loop through the movies one by one
@@ -133,6 +135,7 @@ async function updateLatestTrailer() {
       const currentMovie = movies[i];
       const currentId = currentMovie.id.toString();
       const currentTitle = currentMovie.title;
+      const currentOverview = currentMovie.overview;
 
       console.log(`Checking [${i + 1}/${movies.length}]: "${currentTitle}"...`);
 
@@ -159,6 +162,7 @@ async function updateLatestTrailer() {
         console.log(`New top trailer detected! Preparing to download...`);
         topMovieId = currentId;
         topMovieTitle = currentTitle;
+        topMovieOverview = currentOverview;
         youtubeUrl = `https://www.youtube.com/watch?v=${trailerObj.key}`;
         break; // Exits the loop immediately
 
@@ -184,6 +188,7 @@ async function updateLatestTrailer() {
       const uploadResult = await cloudinary.uploader.upload(downloadedVideoPath, { resource_type: "video", folder: "trailers" });
       await TrailerModel.create({
         title: topMovieTitle,
+        overview: topMovieOverview,
         key: topMovieId,
         trailerUrl: uploadResult.secure_url,
         cloudinaryPublicId: uploadResult.public_id
@@ -196,13 +201,22 @@ async function updateLatestTrailer() {
       }
       const uploadResult = await cloudinary.uploader.upload(downloadedVideoPath, { resource_type: "video", folder: "trailers" });
       
-      existingEntry.title = topMovieTitle;
-      existingEntry.key = topMovieId; 
-      existingEntry.trailerUrl = uploadResult.secure_url;
-      existingEntry.cloudinaryPublicId = uploadResult.public_id;
-      await existingEntry.save();
-      
-      console.log("Successfully replaced the old trailer with the new one!");
+      if (uploadResult) {
+        existingEntry.title = topMovieTitle;
+        existingEntry.overview = topMovieOverview;
+        existingEntry.key = topMovieId; 
+        existingEntry.trailerUrl = uploadResult.secure_url;
+        existingEntry.cloudinaryPublicId = uploadResult.public_id;
+
+        try {
+          await existingEntry.save();
+          console.log("Successfully replaced the old trailer with the new one!");
+        } catch (error) {
+          console.error("Error updating the trailer:", error);
+          await cloudinary.uploader.destroy(uploadResult.public_id, { resource_type: "video" });
+          fs.unlinkSync(downloadedVideoPath);
+        }
+      }
     }
 
     // Clean up: delete the local file so your server doesn't fill up with mp4s

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 function MainContainer() {
 
   const movies = useSelector((store) => store.movies?.nowPlaying);
-  const trailer = useSelector((store) => store.movies?.trailerVideo)
+  const trailer = useSelector((store) => store.movies?.trailer)
 
   console.log("This is inside Main container : ", movies);
   
@@ -15,8 +15,8 @@ function MainContainer() {
   
   return (
     <div className=" aspect-video">
-        <VideoTitle title={movies?.[0]?.title} overview={movies?.[0]?.overview} />
-        <VideoBackground trailerKey={trailer?.[0]?.key} />
+        <VideoTitle title={trailer?.title} overview={trailer?.overview} />
+        <VideoBackground trailerUrl={trailer?.trailerUrl} />
     </div>
   )
 }

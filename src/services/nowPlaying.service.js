@@ -2,8 +2,6 @@ import nowPlayingModel from '../models/nowPlaying.model.js';
 
 async function nowPlayingService(user) {
 
-    
-
     try {
             if (user) {
                 const res = await fetch('/api/movies/nowplaying');

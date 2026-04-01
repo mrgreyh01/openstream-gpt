@@ -1,8 +1,9 @@
 class MovieTrailer {
   constructor(data) {
-    this.key = data?.key;
-    this.name = data?.name;
-    this.type = data?.type;
+    this.title = data?.title;
+    this.overview = data?.overview;
+    this.trailerUrl = data?.trailerUrl;
+    this.cloudinaryPublicId = data?.cloudinaryPublicId; 
   }
 
 }
